@@ -123,15 +123,22 @@
   align-items: center;
   gap: 16px;
   z-index: 100;
+  min-width: 0;
 }
-.topbar-menu { display: none; color: var(--clr-text); }
+.topbar-menu { display: none; color: var(--clr-text); flex-shrink: 0; }
 .topbar-title {
   font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
-.topbar-right { margin-left: auto; }
-.topbar-user { font-size: 0.85rem; color: var(--clr-text-muted); }
+.topbar-title-short { display: none; }
+.topbar-title-full  { display: inline; }
+.topbar-right { margin-left: auto; flex-shrink: 0; }
+.topbar-user { font-size: 0.85rem; color: var(--clr-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
 .admin-content { flex: 1; padding: 28px 24px; }
 
 /* ── Responsive ─────────────────────────────────────────────────────── */
@@ -151,4 +158,32 @@
 }
 @media (max-width: 480px) {
   .admin-content { padding: 16px; }
+  .admin-topbar { padding: 0 14px; gap: 10px; }
+  .topbar-title { font-size: 0.95rem; }
+  .topbar-user { display: none; }
+  .topbar-title-short { display: inline; }
+  .topbar-title-full  { display: none; }
+}
+
+/* ── 320px – 500px extra fixes ───────────────────────────────────────── */
+@media (max-width: 500px) {
+  .admin-sidebar { width: 240px; }
+  .sidebar-header { padding: 18px 14px 12px; }
+  .sidebar-nav { padding: 12px 8px; }
+  .sidebar-link { padding: 10px 12px; font-size: 0.85rem; gap: 10px; }
+  .sidebar-footer { padding: 12px 8px; }
+  .sidebar-actions { gap: 4px; }
+  .sidebar-action-btn { padding: 8px 10px; font-size: 0.8rem; }
+  .user-email { font-size: 0.75rem; max-width: 130px; }
+  .sidebar-tag { font-size: 0.65rem; padding: 2px 6px; }
+}
+
+@media (max-width: 380px) {
+  .admin-sidebar { width: 220px; }
+  .admin-topbar { padding: 0 10px; gap: 8px; height: 56px; }
+  .topbar-title { font-size: 0.85rem; }
+  .admin-content { padding: 12px 10px; }
+  .sidebar-link { gap: 8px; padding: 9px 10px; font-size: 0.82rem; }
+  .user-avatar { width: 30px; height: 30px; font-size: 0.85rem; }
+  .user-email { font-size: 0.72rem; max-width: 110px; }
 }

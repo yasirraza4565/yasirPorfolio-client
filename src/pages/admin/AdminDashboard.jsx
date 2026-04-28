@@ -96,7 +96,10 @@ export default function AdminDashboard() {
           <button className="topbar-menu" onClick={() => setSidebarOpen(true)}>
             <FiMenu size={22} />
           </button>
-          <h2 className="topbar-title">Mohammed Yasir · Dashboard</h2>
+          <h2 className="topbar-title">
+            <span className="topbar-title-full">Mohammed Yasir · Dashboard</span>
+            <span className="topbar-title-short">Dashboard</span>
+          </h2>
           <div className="topbar-right">
             <span className="topbar-user">{user?.email}</span>
           </div>

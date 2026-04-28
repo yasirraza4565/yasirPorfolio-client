@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAbout, updateAbout } from '../../services/api';
+import { getAbout, updateAbout, getImageUrl } from '../../services/api';
 import { FiCheck, FiUpload } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import './AdminPage.css';
@@ -85,7 +85,7 @@ export default function AdminAbout() {
             <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} className="form-control" />
             {(current?.profile_image && !file) && (
               <div style={{marginTop:'12px'}}>
-                <img src={current.profile_image} alt="Current" className="preview-img" style={{maxHeight:'150px',width:'auto',borderRadius:'50%'}} />
+                <img src={getImageUrl(current.profile_image)} alt="Current" className="preview-img" style={{maxHeight:'150px',width:'auto',borderRadius:'50%'}} />
               </div>
             )}
             {file && <p style={{marginTop:'8px',color:'var(--clr-primary)',fontSize:'0.85rem'}}>New image selected: {file.name}</p>}

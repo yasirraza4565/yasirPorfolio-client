@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAchievements } from '../services/api';
+import { getAchievements, getImageUrl } from '../services/api';
 import { FiAward } from 'react-icons/fi';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './Achievements.css';
@@ -45,7 +45,7 @@ export default function Achievements() {
               >
                 {item.image && (
                   <div className="ach-img-wrapper">
-                    <img src={item.image} alt={item.title} className="ach-img" />
+                    <img src={getImageUrl(item.image)} alt={item.title} className="ach-img" />
                   </div>
                 )}
                 <div className="ach-body">

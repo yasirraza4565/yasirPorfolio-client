@@ -71,14 +71,18 @@ body {
   color: var(--clr-text);
   line-height: 1.7;
   overflow-x: hidden;
-  cursor: none !important;
 }
 
-a { color: inherit; text-decoration: none; cursor: none !important; }
+a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 ul { list-style: none; }
-button { cursor: none !important; border: none; background: none; font-family: inherit; }
-input, textarea, select, label { font-family: inherit; cursor: none !important; }
+button { border: none; background: none; font-family: inherit; }
+input, textarea, select, label { font-family: inherit; }
+
+/* Hide native cursor on devices with a mouse — lets CustomCursor take over */
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }

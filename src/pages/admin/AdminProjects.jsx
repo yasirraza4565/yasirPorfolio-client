@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getProjects, createProject, updateProject, deleteProject } from '../../services/api';
+import { getProjects, createProject, updateProject, deleteProject, getImageUrl } from '../../services/api';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import './AdminPage.css';
@@ -88,7 +88,7 @@ export default function AdminProjects() {
                 <tr key={item.id}>
                   <td>
                     {item.image
-                      ? <img src={item.image} alt="" className="table-img" />
+                      ? <img src={getImageUrl(item.image)} alt="" className="table-img" />
                       : <div className="table-img-placeholder" />}
                   </td>
                   <td>
@@ -156,7 +156,7 @@ export default function AdminProjects() {
               <div className="form-group">
                 <label className="form-label">Project Image</label>
                 <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} className="form-control" />
-                {form.image && !file && <img src={form.image} alt="" className="preview-img" />}
+                {form.image && !file && <img src={getImageUrl(form.image)} alt="" className="preview-img" />}
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-outline" onClick={closeModal}>Cancel</button>

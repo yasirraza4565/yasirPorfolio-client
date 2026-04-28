@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getMedia, uploadMedia, deleteMedia } from '../../services/api';
+import { getMedia, uploadMedia, deleteMedia, getImageUrl } from '../../services/api';
 import { FiUpload, FiTrash2, FiImage } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import './AdminPage.css';
@@ -69,7 +69,7 @@ export default function AdminMedia() {
           {media.map(item => (
             <div key={item.id} className="glass-card" style={{padding:'0',overflow:'hidden'}}>
               <div style={{height:'160px',background:'var(--clr-bg2)',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <img src={item.path} alt={item.filename} style={{maxWidth:'100%',maxHeight:'100%',objectFit:'contain'}} />
+                <img src={getImageUrl(item.path)} alt={item.filename} style={{maxWidth:'100%',maxHeight:'100%',objectFit:'contain'}} />
               </div>
               <div style={{padding:'12px'}}>
                 <p style={{fontSize:'0.8rem',color:'var(--clr-text-muted)',marginBottom:'4px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{item.filename}</p>

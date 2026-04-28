@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getCourses } from '../services/api';
+import { getCourses, getImageUrl } from '../services/api';
 import { FiBookOpen, FiExternalLink } from 'react-icons/fi';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './Courses.css';
@@ -65,7 +65,7 @@ export default function Courses() {
                 {course.description && <p className="course-desc">{course.description}</p>}
                 {course.certificate_link && (
                   <div className="course-img-wrapper">
-                    <img src={course.certificate_link} alt={`${course.course_name} Certificate`} className="course-img" />
+                    <img src={getImageUrl(course.certificate_link)} alt={`${course.course_name} Certificate`} className="course-img" />
                     <div className="course-overlay">
                       <a href={formatUrl(course.certificate_link)} target="_blank" rel="noreferrer" className="course-link-btn">
                         <FiExternalLink size={16} /> View Full

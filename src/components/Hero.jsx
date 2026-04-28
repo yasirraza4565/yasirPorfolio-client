@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { getAbout, getSettings, getSocial } from '../services/api';
+import { getAbout, getSettings, getSocial, getImageUrl } from '../services/api';
 import { FiGithub, FiLinkedin, FiDownload, FiArrowDown } from 'react-icons/fi';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './Hero.css';
@@ -128,7 +128,7 @@ export default function Hero() {
           <div className="avatar-wrapper animate-float">
             <div className="avatar-glow" />
             {about?.profile_image ? (
-              <img src={about.profile_image} alt={about.name} className="avatar-img" />
+              <img src={getImageUrl(about.profile_image)} alt={about.name} className="avatar-img" />
             ) : (
               <div className="avatar-placeholder">
                 <span>MY</span>

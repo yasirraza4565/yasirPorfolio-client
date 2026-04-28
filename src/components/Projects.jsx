@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProjects } from '../services/api';
+import { getProjects, getImageUrl } from '../services/api';
 import { FiGithub, FiExternalLink, FiCode } from 'react-icons/fi';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './Projects.css';
@@ -58,7 +58,7 @@ export default function Projects() {
                 >
                   <div className="project-img-wrapper">
                     {p.image ? (
-                      <img src={p.image} alt={p.name} className="project-img" />
+                      <img src={getImageUrl(p.image)} alt={p.name} className="project-img" />
                     ) : (
                       <div className="project-img-placeholder"><FiCode size={48} /></div>
                     )}

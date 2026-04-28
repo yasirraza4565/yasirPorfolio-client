@@ -1,7 +1,18 @@
 import axios from 'axios';
 
+// Resolve an /uploads/... path to the correct absolute URL.
+// In dev, Vite proxies /uploads → localhost:5000, so relative URLs work.
+// In production the client is on a different domain, so we prefix the API host.
+const API_BASE = import.meta.env.VITE_API_URL || '';
+export const getImageUrl = (path) => {
+  if (!path) return null;
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  // In production VITE_API_URL should be set to the backend base URL (e.g. https://your-backend.onrender.com)
+  return `${API_BASE}${path}`;
+};
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: `${API_BASE}/api`,
   headers: { 'Content-Type': 'application/json' },
 });
 
