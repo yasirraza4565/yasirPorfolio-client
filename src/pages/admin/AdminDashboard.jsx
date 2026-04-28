@@ -17,9 +17,9 @@ const MENU = [
   { label: 'Courses', icon: <FiBookOpen />, path: '/admin/dashboard/courses' },
   { label: 'Navbar Links', icon: <FiNav />, path: '/admin/dashboard/navbar' },
   { label: 'Social Media', icon: <FiShare2 />, path: '/admin/dashboard/social' },
-  { label: 'Media', icon: <FiImage />, path: '/admin/dashboard/media' },
   { label: 'Messages', icon: <FiMessageSquare />, path: '/admin/dashboard/messages' },
   { label: 'Site Settings', icon: <FiSettings />, path: '/admin/dashboard/settings' },
+
 ];
 
 export default function AdminDashboard() {

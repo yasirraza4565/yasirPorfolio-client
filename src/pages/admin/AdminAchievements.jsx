@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getAchievements, createAchievement, updateAchievement, deleteAchievement } from '../../services/api';
+import { getAchievements, createAchievement, updateAchievement, deleteAchievement, getImageUrl } from '../../services/api';
+
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import './AdminPage.css';
@@ -58,7 +59,8 @@ export default function AdminAchievements() {
             <tbody>
               {items.map(item => (
                 <tr key={item.id}>
-                  <td>{item.image ? <img src={item.image} alt="" className="table-img" /> : <div className="table-img-placeholder" />}</td>
+                  <td>{item.image ? <img src={getImageUrl(item.image)} alt="" className="table-img" /> : <div className="table-img-placeholder" />}</td>
+
                   <td><p className="item-name">{item.title}</p><p className="item-sub">{item.description?.slice(0,60)}</p></td>
                   <td><span className="text-muted">{item.details?.slice(0,40)}</span></td>
                   <td><div className="flex gap-2">
@@ -84,7 +86,8 @@ export default function AdminAchievements() {
               <div className="form-group"><label className="form-label">Details / Subtitle</label><input name="details" value={form.details} onChange={handleChange} className="form-control" /></div>
               <div className="form-group"><label className="form-label">Description</label><textarea name="description" value={form.description} onChange={handleChange} className="form-control" rows={3} /></div>
               <div className="form-group"><label className="form-label">Image</label><input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} className="form-control" />
-                {form.image && !file && <img src={form.image} alt="" className="preview-img" />}
+                {form.image && !file && <img src={getImageUrl(form.image)} alt="" className="preview-img" />}
+
                 {file && <img src={URL.createObjectURL(file)} alt="" className="preview-img" />}
               </div>
               <div className="modal-footer">

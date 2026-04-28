@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getAbout } from '../services/api';
+import { getAbout, getImageUrl } from '../services/api';
+
 import { FiCode, FiLayout, FiDatabase, FiGlobe, FiFileText } from 'react-icons/fi';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './About.css';
@@ -42,7 +43,7 @@ export default function About() {
             <div className="about-img-wrapper">
               <div className="about-img-bg" />
               {about?.profile_image ? (
-                <img src={about.profile_image} alt={about.name} className="about-img" />
+                <img src={getImageUrl(about.profile_image)} alt={about.name} className="about-img" />
               ) : (
                 <div className="about-img-placeholder">
                   <span>MY</span>
@@ -61,7 +62,7 @@ export default function About() {
             <p className="about-bio">{about?.bio || 'Passionate and creative Full Stack Developer with expertise in building modern web applications.'}</p>
             
             {about?.resume_link && (
-              <a href={about.resume_link} target="_blank" rel="noreferrer" className="btn btn-primary" style={{marginTop: '16px', marginBottom: '24px'}}>
+              <a href={getImageUrl(about.resume_link)} target="_blank" rel="noreferrer" className="btn btn-primary" style={{marginTop: '16px', marginBottom: '24px'}}>
                 <FiFileText size={18} /> View CV
               </a>
             )}

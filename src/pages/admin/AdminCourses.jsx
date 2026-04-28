@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getCourses, createCourse, updateCourse, deleteCourse } from '../../services/api';
+import { getCourses, createCourse, updateCourse, deleteCourse, getImageUrl } from '../../services/api';
+
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import './AdminPage.css';
@@ -61,7 +62,8 @@ export default function AdminCourses() {
                 <tr key={item.id}>
                   <td><p className="item-name">{item.course_name}</p><p className="item-sub">{item.description?.slice(0,60)}</p></td>
                   <td><span className="badge-cyan badge">{item.platform}</span></td>
-                  <td>{item.certificate_link ? <a href={item.certificate_link} target="_blank" rel="noreferrer" className="link-btn">View</a> : <span className="text-muted">—</span>}</td>
+                  <td>{item.certificate_link ? <a href={getImageUrl(item.certificate_link)} target="_blank" rel="noreferrer" className="link-btn">View</a> : <span className="text-muted">—</span>}</td>
+
                   <td><div className="flex gap-2">
                     <button className="btn btn-outline btn-sm btn-icon" onClick={() => openEdit(item)}><FiEdit2 size={14} /></button>
                     <button className="btn btn-danger btn-sm btn-icon" onClick={() => handleDelete(item.id)}><FiTrash2 size={14} /></button>
@@ -88,7 +90,8 @@ export default function AdminCourses() {
               </div>
               <div className="form-group"><label className="form-label">Description</label><textarea name="description" value={form.description} onChange={handleChange} className="form-control" rows={3} /></div>
               <div className="form-group"><label className="form-label">Certificate Image (Upload)</label><input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} className="form-control" />
-                {form.certificate_link && !file && <img src={form.certificate_link} alt="" className="preview-img" />}
+                {form.certificate_link && !file && <img src={getImageUrl(form.certificate_link)} alt="" className="preview-img" />}
+
                 {file && <img src={URL.createObjectURL(file)} alt="" className="preview-img" />}
               </div>
               <div className="modal-footer">

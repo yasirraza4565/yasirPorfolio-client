@@ -116,7 +116,7 @@ export default function Hero() {
               <FiLinkedin size={20} />
             </a>
             {about?.resume_link && (
-              <a href={about.resume_link} target="_blank" rel="noreferrer" className="btn btn-outline btn-sm">
+              <a href={getImageUrl(about.resume_link)} target="_blank" rel="noreferrer" className="btn btn-outline btn-sm">
                 <FiDownload size={16} /> Resume
               </a>
             )}
