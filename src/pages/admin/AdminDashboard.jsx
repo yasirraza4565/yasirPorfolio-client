@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate, NavLink, Outlet } from 'react-router-dom';
 import {
   FiHome, FiCode, FiBriefcase, FiAward, FiBookOpen,
-  FiMenu as FiNav, FiUser, FiShare2, FiImage, FiMessageSquare,
+  FiMenu as FiNav, FiUser, FiShare2, FiMessageSquare,
   FiLogOut, FiMenu, FiX, FiExternalLink, FiSettings
 } from 'react-icons/fi';
 import './AdminDashboard.css';
@@ -19,7 +19,6 @@ const MENU = [
   { label: 'Social Media', icon: <FiShare2 />, path: '/admin/dashboard/social' },
   { label: 'Messages', icon: <FiMessageSquare />, path: '/admin/dashboard/messages' },
   { label: 'Site Settings', icon: <FiSettings />, path: '/admin/dashboard/settings' },
-
 ];
 
 export default function AdminDashboard() {

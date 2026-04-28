@@ -75,7 +75,6 @@ export default function AdminAbout() {
             {current?.resume_link && !resumeFile && (
               <p style={{marginTop:'8px', fontSize:'0.85rem'}}>
                 Current Resume: <a href={getImageUrl(current.resume_link)} target="_blank" rel="noreferrer" style={{color:'var(--clr-primary)', textDecoration:'underline'}}>View PDF</a>
-
               </p>
             )}
             {resumeFile && <p style={{marginTop:'8px',color:'var(--clr-primary)',fontSize:'0.85rem'}}>New resume selected: {resumeFile.name}</p>}

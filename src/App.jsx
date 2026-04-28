@@ -12,7 +12,7 @@ import AdminCourses from './pages/admin/AdminCourses';
 import AdminNavbar from './pages/admin/AdminNavbar';
 import AdminAbout from './pages/admin/AdminAbout';
 import AdminSocial from './pages/admin/AdminSocial';
-import AdminMedia from './pages/admin/AdminMedia';
+
 import AdminMessages from './pages/admin/AdminMessages';
 import AdminSettings from './pages/admin/AdminSettings';
 
@@ -45,7 +45,7 @@ export default function App() {
           <Route path="navbar" element={<AdminNavbar />} />
           <Route path="about" element={<AdminAbout />} />
           <Route path="social" element={<AdminSocial />} />
-          <Route path="media" element={<AdminMedia />} />
+
           <Route path="messages" element={<AdminMessages />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>

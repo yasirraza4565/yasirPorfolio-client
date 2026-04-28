@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { getAbout, getImageUrl } from '../services/api';
-
 import { FiCode, FiLayout, FiDatabase, FiGlobe, FiFileText } from 'react-icons/fi';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './About.css';
@@ -43,7 +42,7 @@ export default function About() {
             <div className="about-img-wrapper">
               <div className="about-img-bg" />
               {about?.profile_image ? (
-                <img src={getImageUrl(about.profile_image)} alt={about.name} className="about-img" />
+              <img src={getImageUrl(about.profile_image)} alt={about.name} className="about-img" />
               ) : (
                 <div className="about-img-placeholder">
                   <span>MY</span>
