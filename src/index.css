@@ -79,9 +79,12 @@ ul { list-style: none; }
 button { border: none; background: none; font-family: inherit; }
 input, textarea, select, label { font-family: inherit; }
 
-/* Hide native cursor on devices with a mouse — lets CustomCursor take over */
-@media (pointer: fine) {
-  *, *::before, *::after { cursor: none !important; }
+/* Hide native cursor ONLY after CustomCursor JS has initialised */
+html.has-custom-cursor,
+html.has-custom-cursor *,
+html.has-custom-cursor *::before,
+html.has-custom-cursor *::after {
+  cursor: none !important;
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────── */

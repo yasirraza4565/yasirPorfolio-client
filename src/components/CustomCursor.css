@@ -1,65 +1,81 @@
-/* ── Custom cursor ────────────────────────────────────────────────────── */
+/* ── Custom Cursor ────────────────────────────────────────────────────── */
 .c-dot,
 .c-ring {
   position: fixed;
-  top: 0; left: 0;
   pointer-events: none;
   z-index: 999999;
   border-radius: 50%;
-  will-change: transform;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.c-dot.c-visible,
-.c-ring.c-visible {
-  opacity: 1;
+  top: 0;
+  left: 0;
+  transition: width 0.2s ease, height 0.2s ease,
+              margin 0.2s ease, background 0.2s ease,
+              box-shadow 0.2s ease, border-color 0.2s ease,
+              opacity 0.25s ease;
 }
 
-/* ── Dot (small, snaps to cursor) ───────────────────────────────────── */
+/* ── Dot: snaps instantly to cursor ──────────────────────────────────── */
 .c-dot {
-  width: 8px; height: 8px;
-  margin: -4px 0 0 -4px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
   background: #6366f1;
   box-shadow: 0 0 10px rgba(99,102,241,0.8), 0 0 20px rgba(99,102,241,0.4);
-  transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease,
-              background 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
 }
-.c-dot--hover {
-  width: 14px; height: 14px;
-  margin: -7px 0 0 -7px;
+
+/* ── Ring: follows with smooth lag ───────────────────────────────────── */
+.c-ring {
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
+  border: 1.5px solid rgba(99,102,241,0.5);
+  background: transparent;
+}
+
+/* ── Hover state ─────────────────────────────────────────────────────── */
+.c-dot.is-hover {
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  margin-top: -7px;
   background: #06b6d4;
   box-shadow: 0 0 16px rgba(6,182,212,0.9), 0 0 30px rgba(6,182,212,0.3);
 }
-.c-dot--click {
-  width: 6px; height: 6px;
-  margin: -3px 0 0 -3px;
-  background: #f472b6;
-  box-shadow: 0 0 20px rgba(244,114,182,0.9);
-}
-
-/* ── Ring (larger, follows with smooth lag) ──────────────────────────── */
-.c-ring {
-  width: 36px; height: 36px;
-  margin: -18px 0 0 -18px;
-  border: 1.5px solid rgba(99,102,241,0.5);
-  background: transparent;
-  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease,
-              border-color 0.25s ease, background 0.25s ease, opacity 0.3s ease;
-}
-.c-ring--hover {
-  width: 52px; height: 52px;
-  margin: -26px 0 0 -26px;
+.c-ring.is-hover {
+  width: 52px;
+  height: 52px;
+  margin-left: -26px;
+  margin-top: -26px;
   border-color: rgba(6,182,212,0.6);
   background: rgba(6,182,212,0.06);
 }
-.c-ring--click {
-  width: 26px; height: 26px;
-  margin: -13px 0 0 -13px;
+
+/* ── Click state ─────────────────────────────────────────────────────── */
+.c-dot.is-click {
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
+  background: #f472b6;
+  box-shadow: 0 0 20px rgba(244,114,182,0.9);
+}
+.c-ring.is-click {
+  width: 26px;
+  height: 26px;
+  margin-left: -13px;
+  margin-top: -13px;
   border-color: rgba(244,114,182,0.7);
   background: rgba(244,114,182,0.06);
 }
 
-/* ── Hide on touch / mobile devices ──────────────────────────────────── */
-@media (pointer: coarse) {
+/* ── Hidden (mouse left the window) ──────────────────────────────────── */
+.c-dot.is-hidden,
+.c-ring.is-hidden {
+  opacity: 0;
+}
+
+/* ── Hide on touch-only devices ──────────────────────────────────────── */
+@media (pointer: coarse) and (hover: none) {
   .c-dot, .c-ring { display: none !important; }
 }

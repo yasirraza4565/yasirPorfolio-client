@@ -1,104 +1,113 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import './CustomCursor.css';
 
 export default function CustomCursor() {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
-  const mousePos = useRef({ x: -100, y: -100 });
-  const ringPos = useRef({ x: -100, y: -100 });
-  const [visible, setVisible] = useState(false);
-  const [state, setState] = useState('default'); // default | hover | click
-  const isTouch = useRef(false);
-
-  const isInteractive = useCallback((el) => {
-    if (!el) return false;
-    return el.closest(
-      'a, button, [role="button"], input, textarea, select, label, .glass-card, .btn, .sidebar-link, .sidebar-action-btn, .topbar-menu, .modal-close, .link-btn, .social-icon, .project-link-btn, .course-link-btn, [onclick], .nav-link'
-    );
-  }, []);
+  const pos = useRef({ x: 0, y: 0 });     // actual mouse position (dot)
+  const ring = useRef({ x: 0, y: 0 });     // smoothed ring position
 
   useEffect(() => {
-    // Skip on touch-only devices
-    if (window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(pointer: fine)').matches) {
-      isTouch.current = true;
-      return;
-    }
+    // Don't run on touch-only devices
+    const hasMouse = window.matchMedia('(pointer: fine)').matches;
+    if (!hasMouse) return;
 
-    let animId;
+    // Activate the custom cursor by adding a class to <html>
+    document.documentElement.classList.add('has-custom-cursor');
 
-    const onMove = (e) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
-      if (!visible) setVisible(true);
+    let raf;
+
+    // ── Mouse Move: snap the dot, record position ─────────────────────
+    const onMouseMove = (e) => {
+      pos.current.x = e.clientX;
+      pos.current.y = e.clientY;
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        dotRef.current.style.left  = e.clientX + 'px';
+        dotRef.current.style.top   = e.clientY + 'px';
       }
     };
 
-    const animate = () => {
-      const dx = mousePos.current.x - ringPos.current.x;
-      const dy = mousePos.current.y - ringPos.current.y;
-      // Smooth follow with adaptive speed — faster when far away
-      const speed = 0.15;
-      ringPos.current.x += dx * speed;
-      ringPos.current.y += dy * speed;
+    // ── Animation loop: smoothly follow ring ──────────────────────────
+    const loop = () => {
+      ring.current.x += (pos.current.x - ring.current.x) * 0.15;
+      ring.current.y += (pos.current.y - ring.current.y) * 0.15;
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ringPos.current.x}px, ${ringPos.current.y}px)`;
+        ringRef.current.style.left = ring.current.x + 'px';
+        ringRef.current.style.top  = ring.current.y + 'px';
       }
-      animId = requestAnimationFrame(animate);
+      raf = requestAnimationFrame(loop);
     };
-    animId = requestAnimationFrame(animate);
+    raf = requestAnimationFrame(loop);
 
-    const onDown = () => setState('click');
-    const onUp = () => {
-      // Check if cursor is still over an interactive element
-      const el = document.elementFromPoint(mousePos.current.x, mousePos.current.y);
-      setState(isInteractive(el) ? 'hover' : 'default');
-    };
+    // ── Hover detection ───────────────────────────────────────────────
+    const INTERACTIVE =
+      'a, button, [role="button"], input, textarea, select, label, ' +
+      '.glass-card, .btn, .sidebar-link, .sidebar-action-btn, ' +
+      '.topbar-menu, .modal-close, .link-btn, .social-icon, ' +
+      '.project-link-btn, .course-link-btn, .nav-link, [onclick]';
 
-    const onOver = (e) => {
-      if (isInteractive(e.target)) {
-        setState('hover');
-      }
-    };
+    const check = (el) => el && el.closest(INTERACTIVE);
 
-    const onOut = (e) => {
-      // Only reset to default if the related target (element entering) is NOT interactive
-      const entering = e.relatedTarget;
-      if (!isInteractive(entering)) {
-        setState('default');
+    const onMouseOver = (e) => {
+      if (check(e.target)) {
+        dotRef.current?.classList.add('is-hover');
+        ringRef.current?.classList.add('is-hover');
       }
     };
 
-    const onEnter = () => setVisible(true);
-    const onLeave = () => setVisible(false);
+    const onMouseOut = (e) => {
+      // Only leave hover if we're NOT entering another interactive element
+      if (!check(e.relatedTarget)) {
+        dotRef.current?.classList.remove('is-hover');
+        ringRef.current?.classList.remove('is-hover');
+      }
+    };
 
-    document.addEventListener('mousemove', onMove, { passive: true });
-    document.addEventListener('mousedown', onDown);
-    document.addEventListener('mouseup', onUp);
-    document.addEventListener('mouseover', onOver, { passive: true });
-    document.addEventListener('mouseout', onOut, { passive: true });
-    document.addEventListener('mouseenter', onEnter);
-    document.addEventListener('mouseleave', onLeave);
+    // ── Click feedback ────────────────────────────────────────────────
+    const onMouseDown = () => {
+      dotRef.current?.classList.add('is-click');
+      ringRef.current?.classList.add('is-click');
+    };
+    const onMouseUp = () => {
+      dotRef.current?.classList.remove('is-click');
+      ringRef.current?.classList.remove('is-click');
+    };
+
+    // ── Hide when mouse leaves window ─────────────────────────────────
+    const onMouseLeave = () => {
+      dotRef.current?.classList.add('is-hidden');
+      ringRef.current?.classList.add('is-hidden');
+    };
+    const onMouseEnter = () => {
+      dotRef.current?.classList.remove('is-hidden');
+      ringRef.current?.classList.remove('is-hidden');
+    };
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('mouseover', onMouseOver, { passive: true });
+    document.addEventListener('mouseout', onMouseOut, { passive: true });
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mouseup', onMouseUp);
+    document.documentElement.addEventListener('mouseleave', onMouseLeave);
+    document.documentElement.addEventListener('mouseenter', onMouseEnter);
 
     return () => {
-      cancelAnimationFrame(animId);
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mousedown', onDown);
-      document.removeEventListener('mouseup', onUp);
-      document.removeEventListener('mouseover', onOver);
-      document.removeEventListener('mouseout', onOut);
-      document.removeEventListener('mouseenter', onEnter);
-      document.removeEventListener('mouseleave', onLeave);
+      cancelAnimationFrame(raf);
+      document.documentElement.classList.remove('has-custom-cursor');
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout', onMouseOut);
+      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('mouseup', onMouseUp);
+      document.documentElement.removeEventListener('mouseleave', onMouseLeave);
+      document.documentElement.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, [visible, isInteractive]);
-
-  // Don't render on touch-only devices
-  if (isTouch.current) return null;
+  }, []); // empty deps — run once, never re-run
 
   return (
     <>
-      <div ref={dotRef}  className={`c-dot c-dot--${state} ${visible ? 'c-visible' : ''}`} />
-      <div ref={ringRef} className={`c-ring c-ring--${state} ${visible ? 'c-visible' : ''}`} />
+      <div ref={dotRef}  className="c-dot" />
+      <div ref={ringRef} className="c-ring" />
     </>
   );
 }
